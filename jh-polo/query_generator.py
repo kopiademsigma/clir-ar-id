@@ -7,7 +7,7 @@ genai.configure(api_key='AIzaSyD7Rg-QUVXCyzi03PFCzT1BxcbNMhstqjI')
 model = genai.GenerativeModel('gemini-2.5-flash')
 
 
-def generate_and_write_query(input_file, output_file):
+def generate_and_write_query(input_file, output_file, start_line=1, finish_line=368):
     """
     Membaca passage dari file, meng-generate query, dan menulis hasilnya ke file lain.
     """
@@ -16,6 +16,11 @@ def generate_and_write_query(input_file, output_file):
         # Melewati baris pertama (header)
         next(f_in) 
         for line_num, line in enumerate(f_in, start=1):
+            if line_num < start_line:
+                continue  # skip until start_line
+            if line_num == finish_line:
+                break
+            
             parts = line.strip().split('\t')
             if len(parts) < 2:
                 continue
@@ -79,7 +84,7 @@ def generate_and_write_query(input_file, output_file):
 
 # Gunakan fungsi di atas
 input_filename = "jh-polo/passages_pairs.csv"  # Ganti dengan nama file Anda
-output_filename = "jh-polo/query_passage_triples.csv"
+output_filename = "jh-polo/query_passage_triples-4.tsv"
 
 # Jalankan skrip
-generate_and_write_query(input_filename, output_filename)
+generate_and_write_query(input_filename, output_filename, start_line=1, finish_line=145)
