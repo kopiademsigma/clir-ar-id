@@ -4,4 +4,4 @@ transformers==4.12.5
 datasets==1.18.4
 pyarrow==5.0.0
 faiss-cpu==1.7.1
-
+faiss-gpu==1.7.2
