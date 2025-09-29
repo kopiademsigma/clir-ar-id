@@ -11,7 +11,7 @@ with open(input_file, "r", encoding="utf-8") as fin, open(output_file, "w", enco
         q, pos, neg = parts
         record = {
             "query": q,
-            "positive": pos,
-            "negative": neg
+            "positives": [pos],   # wrap in list
+            "negatives": [neg]    # wrap in list
         }
         fout.write(json.dumps(record, ensure_ascii=False) + "\n")
