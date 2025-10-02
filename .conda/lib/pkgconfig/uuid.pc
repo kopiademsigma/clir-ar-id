@@ -1,0 +1,11 @@
+prefix=/home/kopiadem/Documents/KULIAH/SKRIPSI/.conda
+exec_prefix=/home/kopiadem/Documents/KULIAH/SKRIPSI/.conda
+libdir=/home/kopiadem/Documents/KULIAH/SKRIPSI/.conda/lib
+includedir=/home/kopiadem/Documents/KULIAH/SKRIPSI/.conda/include
+
+Name: uuid
+Description: Universally unique id library
+Version: 2.32.1
+Requires:
+Cflags: -I${includedir}/uuid
+Libs: -L${libdir} -luuid
