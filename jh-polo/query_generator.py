@@ -80,11 +80,11 @@ def generate_and_write_query(input_file, output_file, start_line=1, finish_line=
             except Exception as e:
                 print(f"⚠️ Line {line_num}: Failed to generate query → {e}")
                 # Jika gagal, tulis baris kosong atau pesan error
-                f_out.write(f"ERROR \t {passage_pos} \t {passage_neg}\n")
+                f_out.write(f"ERROR passage {line_num}\t {passage_pos} \t {passage_neg}\n")
 
 # Gunakan fungsi di atas
 input_filename = "jh-polo/passages_pairs.csv"  # Ganti dengan nama file Anda
-output_filename = "jh-polo/query_passage_triples-4.tsv"
+output_filename = "jh-polo/query_passage_triples-all.tsv"
 
 # Jalankan skrip
-generate_and_write_query(input_filename, output_filename, start_line=1, finish_line=145)
+generate_and_write_query(input_filename, output_filename)
