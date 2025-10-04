@@ -1,6 +1,11 @@
 query_id,query,relevant_passage_ids
-1,"waktu sholat ashar",
-2,"sumpah ila",
-3,"hukum mengingatkan orang yang terkena najis",
+1,"waktu sholat ashar",31
+2,"sumpah ila'",276
+3,"menyentuh anjing di dalam air",27
 4,"banyak syarat sholat",5
-5,"syarat sholat bagi orang yang selalu hadats",
+5,"syarat sholat bagi orang yang selalu hadats",8
+6,"hukum mensholati orang kafir",100
+7,"perkara yang membatalkan sholat",62
+8,"mandi secara bahasa",18
+9,"apakah utang dapat menggugurkan kewajiban zakat",119
+10,"sahkah lafaz nikah dengan bukan bahasa arab",235
