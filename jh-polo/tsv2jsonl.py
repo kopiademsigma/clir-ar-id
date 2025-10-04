@@ -1,7 +1,7 @@
 import json
 
-input_file = "jh-polo/query_passage_triples-3.tsv"
-output_file = "jh-polo/triplet.jsonl"
+input_file = "jh-polo/query_passage_triples-5-fixed.tsv"
+output_file = "jh-polo/triplet-fix.jsonl"
 
 with open(input_file, "r", encoding="utf-8") as fin, open(output_file, "w", encoding="utf-8") as fout:
     for line in fin:
