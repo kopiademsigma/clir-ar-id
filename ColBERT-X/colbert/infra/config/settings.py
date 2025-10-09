@@ -38,6 +38,8 @@ class RunSettings:
     @property
     def gpus_(self):
         value = self.gpus
+        if value == "val" or value is None:
+            value = [0]
 
         if isinstance(value, int):
             value = list(range(value))
