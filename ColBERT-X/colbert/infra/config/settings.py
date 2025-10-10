@@ -38,15 +38,26 @@ class RunSettings:
     @property
     def gpus_(self):
         value = self.gpus
+        
+        # Handle "val" string or None - default to GPU 0
         if value == "val" or value is None:
             value = [0]
+            return value
 
+        # Handle integer input - convert to list of GPU indices
         if isinstance(value, int):
             value = list(range(value))
 
+        # Handle string input
         if isinstance(value, str):
+            # Clean and validate the string
+            value = value.strip()
+            # If string is "val" or contains no digits, default to GPU 0
+            if value == "val" or not any(c.isdigit() for c in value):
+                return [0]
             value = value.split(',')
 
+        # Convert to integers
         value = list(map(int, value))
         value = sorted(list(set(value)))
 
