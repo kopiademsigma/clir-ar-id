@@ -41,26 +41,51 @@ class RunSettings:
         
         # Handle "val" string or None - default to GPU 0
         if value == "val" or value is None:
-            value = [0]
-            return value
+            return [0]
 
         # Handle integer input - convert to list of GPU indices
         if isinstance(value, int):
             value = list(range(value))
+            return value
 
         # Handle string input
         if isinstance(value, str):
-            # Clean and validate the string
+            # Clean the string
             value = value.strip()
-            # If string is "val" or contains no digits, default to GPU 0
-            if value == "val" or not any(c.isdigit() for c in value):
+            
+            # Check if it's "val" or doesn't contain valid numbers
+            if value == "val":
                 return [0]
+            
+            # Split by comma
             value = value.split(',')
-
-        # Convert to integers
-        value = list(map(int, value))
+            
+            # Filter out any non-numeric values and convert to int
+            try:
+                value = [int(v.strip()) for v in value if v.strip().isdigit() or (v.strip().startswith('-') and v.strip()[1:].isdigit())]
+            except (ValueError, AttributeError):
+                # If anything goes wrong, default to GPU 0
+                return [0]
+            
+            # If no valid values, default to GPU 0
+            if not value:
+                return [0]
+        
+        # Handle list input
+        if isinstance(value, (list, tuple)):
+            try:
+                value = list(map(int, value))
+            except (ValueError, TypeError):
+                return [0]
+        
+        # Ensure value is a list at this point
+        if not isinstance(value, list):
+            return [0]
+        
+        # Sort and deduplicate
         value = sorted(list(set(value)))
 
+        # Validate GPU indices
         assert all(device_idx in range(0, self.total_visible_gpus) for device_idx in value), value
 
         return value
