@@ -23,7 +23,15 @@ class Examples:
         return self.__provenance
     
     def toDict(self):
-        return self.provenance()
+        # Return only minimal metadata to avoid JSON dump of all examples
+        n = len(self.data) if self.data is not None else 0
+        return {
+            "path": self.path,
+            "nway": self.nway,
+            "count": n,
+            "provenance": str(self.__provenance)
+        }
+
 
     def _load_file(self, path: str):
         nway = self.nway + 1 if self.nway else self.nway
