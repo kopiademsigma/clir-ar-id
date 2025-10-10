@@ -100,3 +100,9 @@ class Examples:
             return obj
 
         assert False, f"obj has type {type(obj)} which is not compatible with cast()"
+
+    def __repr__(self):
+        # Prevent huge dumps of data when printing Examples
+        n = len(self.data) if self.data is not None else 0
+        return f"<Examples n={n}, path='{self.path}', nway={self.nway}>"
+
