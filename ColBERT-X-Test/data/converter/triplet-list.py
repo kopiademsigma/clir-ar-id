@@ -1,7 +1,7 @@
 import json
 
-src = "ColBERT-X/data/triplet-fix.jsonl"
-dst = "ColBERT-X/data/triplet-fixed-list.jsonl"
+src = "ColBERT-X-Test/data/triplet-fix.jsonl"
+dst = "ColBERT-X-Test/data/triplet-fixed-list-nway2.jsonl"
 
 with open(src, "r") as fin, open(dst, "w") as fout:
     for line in fin:
@@ -10,6 +10,6 @@ with open(src, "r") as fin, open(dst, "w") as fout:
         query = ex.get("query")
         pos = ex.get("positives")[0]
         neg = ex.get("negatives")[0]
-        fout.write(json.dumps([query, pos, neg]) + "\n")
+        fout.write(json.dumps([query, pos, neg, 2]) + "\n")
 
 print("✅ Fixed file written to", dst)
