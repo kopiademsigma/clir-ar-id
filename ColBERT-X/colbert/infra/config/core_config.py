@@ -12,10 +12,6 @@ from dataclasses import MISSING
 @dataclass
 class DefaultVal:
     val: Any
-    
-    def toDict(self):
-        """Required for ujson serialization"""
-        return self.val
 
 
 @dataclass
@@ -58,18 +54,27 @@ class CoreConfig:
             raise Exception(f"Unrecognized key `{key}` for {type(self)}")
 
     def help(self):
-        # Convert dataclass to dict and handle DefaultVal objects
-        config_dict = self._serialize_config(dataclasses.asdict(self))
+        # Convert all values first, then serialize
+        config_dict = {}
+        for field in fields(self):
+            value = getattr(self, field.name)
+            # Unwrap DefaultVal objects
+            if isinstance(value, DefaultVal):
+                value = value.val
+            config_dict[field.name] = self._serialize_value(value)
         print(ujson.dumps(config_dict, indent=4))
     
-    def _serialize_config(self, obj):
-        """Recursively serialize config, handling DefaultVal objects"""
+    def _serialize_value(self, obj):
+        """Recursively serialize values, handling DefaultVal objects"""
         if isinstance(obj, DefaultVal):
-            return obj.val
+            return self._serialize_value(obj.val)
         elif isinstance(obj, dict):
-            return {k: self._serialize_config(v) for k, v in obj.items()}
+            return {k: self._serialize_value(v) for k, v in obj.items()}
         elif isinstance(obj, (list, tuple)):
-            return [self._serialize_config(item) for item in obj]
+            return type(obj)([self._serialize_value(item) for item in obj])
+        elif hasattr(obj, '__dict__') and not isinstance(obj, type):
+            # Handle custom objects by converting to dict
+            return {k: self._serialize_value(v) for k, v in obj.__dict__.items()}
         return obj
 
     def __export_value(self, v):
