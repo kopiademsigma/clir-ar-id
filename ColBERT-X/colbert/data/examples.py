@@ -18,6 +18,15 @@ class Examples:
         self.nway = nway
         self.path = path
         self.data = data or self._load_file(path)
+        
+        # If nway wasn't provided, try to infer it from the data
+        if self.nway is None and self.data and len(self.data) > 0:
+            # Infer nway from the first example
+            first_example = self.data[0]
+            if isinstance(first_example, (list, tuple)):
+                # nway is typically the number of elements (query + positive + negatives)
+                self.nway = len(first_example)
+                print_message(f"#> Inferred nway={self.nway} from data (first example has {len(first_example)} elements)")
 
     def provenance(self):
         return self.__provenance
@@ -103,8 +112,13 @@ class Examples:
 
         # if type(obj) is cls:
         if isinstance(obj, cls):
-            # assert nway is None, nway
-            assert obj.nway == nway, nway
+            # If the object already has nway set and it matches, return it
+            if obj.nway is not None and nway is not None:
+                assert obj.nway == nway, f"nway mismatch: obj.nway={obj.nway}, requested nway={nway}"
+            # If obj.nway is None but nway is provided, set it
+            elif obj.nway is None and nway is not None:
+                obj.nway = nway
+                print_message(f"#> Set nway={nway} on existing Examples object")
             return obj
 
         assert False, f"obj has type {type(obj)} which is not compatible with cast()"
@@ -113,4 +127,3 @@ class Examples:
         # Prevent huge dumps of data when printing Examples
         n = len(self.data) if self.data is not None else 0
         return f"<Examples n={n}, path='{self.path}', nway={self.nway}>"
-
