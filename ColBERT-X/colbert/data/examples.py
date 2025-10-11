@@ -112,13 +112,11 @@ class Examples:
 
         # if type(obj) is cls:
         if isinstance(obj, cls):
-            # If the object already has nway set and it matches, return it
-            if obj.nway is not None and nway is not None:
-                assert obj.nway == nway, f"nway mismatch: obj.nway={obj.nway}, requested nway={nway}"
-            # If obj.nway is None but nway is provided, set it
-            elif obj.nway is None and nway is not None:
-                obj.nway = nway
-                print_message(f"#> Set nway={nway} on existing Examples object")
+            # If nway is provided and different from obj.nway, update obj.nway
+            if nway is not None:
+                if obj.nway != nway:
+                    print_message(f"#> Updating nway from {obj.nway} to {nway}")
+                    obj.nway = nway
             return obj
 
         assert False, f"obj has type {type(obj)} which is not compatible with cast()"
