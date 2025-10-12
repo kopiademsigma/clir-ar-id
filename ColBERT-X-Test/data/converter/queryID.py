@@ -15,7 +15,7 @@ with open('ColBERT-X-Test/data/queries.train.tsv', 'r', encoding='utf-8') as f:
 print(f"Loaded {len(query_text_to_id)} queries")
 
 # Fix the triples file
-input_file = 'ColBERT-X-Test/data/triplet-fixed-list.jsonl'
+input_file = 'ColBERT-X-Test/data/triplet-fixed-list2.jsonl'
 output_file = 'ColBERT-X-Test/data/triplet-final.jsonl'
 
 fixed_count = 0
