@@ -27,6 +27,10 @@ class CoreConfig:
                 setattr(self, field.name, field.default.val)
             if not isinstance(field_val, DefaultVal):
                 self.assigned[field.name] = True
+            # Unwrap any remaining DefaultVal objects
+            if isinstance(field_val, DefaultVal):
+                setattr(self, field.name, field_val.val)
+                self.assigned[field.name] = True
 
     def assign_defaults(self):
         for field in fields(self):
@@ -38,6 +42,14 @@ class CoreConfig:
         ignored = set()
         for key, value in kw_args.items():
             self.set(key, value, ignore_unrecognized) or ignored.update({key})
+        
+        # After configuration, unwrap any DefaultVal objects that remain
+        for field in fields(self):
+            field_val = getattr(self, field.name)
+            if isinstance(field_val, DefaultVal):
+                setattr(self, field.name, field_val.val)
+                self.assigned[field.name] = True
+        
         return ignored
         """
         # TODO: Take a config object, not kw_args.
