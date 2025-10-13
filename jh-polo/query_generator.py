@@ -7,7 +7,7 @@ genai.configure(api_key='AIzaSyD7Rg-QUVXCyzi03PFCzT1BxcbNMhstqjI')
 model = genai.GenerativeModel('gemini-2.5-flash')
 
 
-def generate_and_write_query(input_file, output_file, start_line=246, finish_line=367):
+def generate_and_write_query(input_file, output_file, start_line=247, finish_line=252):
     """
     Membaca passage dari file, meng-generate query, dan menulis hasilnya ke file lain.
     """
@@ -84,7 +84,7 @@ def generate_and_write_query(input_file, output_file, start_line=246, finish_lin
 
 # Gunakan fungsi di atas
 input_filename = "jh-polo/passages_pairs.csv"  # Ganti dengan nama file Anda
-output_filename = "jh-polo/query_passage_triples-all-2.tsv"
+output_filename = "jh-polo/query_passage_triples-error-247-251.tsv"
 
 # Jalankan skrip
 generate_and_write_query(input_filename, output_filename)
